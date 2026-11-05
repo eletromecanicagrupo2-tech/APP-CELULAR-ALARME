@@ -29,6 +29,22 @@ data class BundledMusic(
  */
 object SpotifyMusic {
 
+    const val SAVED_TRACK = "spotify_after_alarm"
+
+    fun trackLink(input: String): String? {
+        val value = input.trim()
+        val uri = Uri.parse(value)
+        val path = uri.pathSegments
+        val id = when {
+            value.startsWith("spotify:track:") -> value.removePrefix("spotify:track:")
+            uri.scheme == "https" && uri.host == "open.spotify.com" &&
+                path.size in 2..3 && path[path.size - 2] == "track" &&
+                (path.size == 2 || path.first().startsWith("intl-")) -> path.last()
+            else -> return null
+        }
+        return if (Regex("[A-Za-z0-9]{22}").matches(id)) "https://open.spotify.com/track/$id" else null
+    }
+
     const val STANDARD_BELL_ID = -1
 
     /** Músicas embarcadas (assets/music/) + playlists estilo Spotify. */
@@ -150,6 +166,6 @@ object SpotifyMusic {
     fun newPhotoFile(context: Context): File {
         val dir = File(context.cacheDir, "fotos_mission").apply { mkdirs() }
         val stamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return File(dir, "vaso_$stamp.jpg")
+        return File.createTempFile("vaso_${stamp}_", ".jpg", dir)
     }
 }

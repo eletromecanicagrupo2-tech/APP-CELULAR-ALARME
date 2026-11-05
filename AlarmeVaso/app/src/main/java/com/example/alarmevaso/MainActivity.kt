@@ -90,10 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnImportMusic).setOnClickListener { importMusicFile() }
         findViewById<Button>(R.id.btnOpenSpotify).setOnClickListener {
-            val opened = SpotifyMusic.openInSpotify(this, "acordar animado")
-            txtStatus.text = getString(
-                if (opened) R.string.status_spotify_open else R.string.status_no_spotify
-            )
+            chooseSpotifyTrack()
         }
         findViewById<Button>(R.id.btnTestAlarm).setOnClickListener { testAlarm() }
         findViewById<Button>(R.id.btnBattery).setOnClickListener { openBatterySettings() }
@@ -141,6 +138,36 @@ class MainActivity : AppCompatActivity() {
             txtNext.text = getString(R.string.next_none)
         }
         updateMusicLabel()
+    }
+
+    private fun chooseSpotifyTrack() {
+        val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
+        val field = android.widget.EditText(this).apply {
+            setSingleLine()
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_URI
+            hint = "https://open.spotify.com/track/…"
+            setText(prefs.getString(SpotifyMusic.SAVED_TRACK, ""))
+        }
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Faixa para depois do alarme")
+            .setMessage("No Spotify, abra a música e toque em Compartilhar → Copiar link. Cole aqui para abri-la depois de parar o alarme.")
+            .setView(field)
+            .setPositiveButton("Salvar", null)
+            .setNegativeButton("Cancelar", null)
+            .setNeutralButton("Remover") { _, _ ->
+                prefs.edit().remove(SpotifyMusic.SAVED_TRACK).apply()
+            }.create()
+        dialog.show()
+        dialog.getButton(android.content.DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val link = SpotifyMusic.trackLink(field.text.toString())
+            if (link == null) {
+                field.error = "Cole o link de uma música de open.spotify.com."
+            } else {
+                prefs.edit().putString(SpotifyMusic.SAVED_TRACK, link).apply()
+                android.widget.Toast.makeText(this, "Faixa salva", android.widget.Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun updateMusicLabel() {

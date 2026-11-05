@@ -17,10 +17,10 @@
     <string name="music_selected">Toca no alarme: %1$s</string>
     <string name="music_bell">Sininho padrão</string>
     <string name="pick_time_title">Escolha o horário (Brasília)</string>
-    <string name="lbl_playlist">Músicas do Spotify — escolha a do seu despertador</string>
-    <string name="hint_playlist">Toque em uma música para selecioná-la. O botão verde abre a playlist no app do Spotify.</string>
+    <string name="lbl_playlist">Som do despertador</string>
+    <string name="hint_playlist">Escolha um som da lista ou importe um arquivo de áudio. A faixa do Spotify pode ser aberta depois de parar o alarme.</string>
     <string name="btn_import_music">Importar música do celular</string>
-    <string name="btn_open_spotify">Abrir o Spotify</string>
+    <string name="btn_open_spotify">Escolher faixa do Spotify</string>
     <string name="btn_test_alarm">Testar alarme agora 🔔</string>
     <string name="btn_battery">Evitar que a bateria mate o alarme</string>
     <string name="status_spotify_open">Spotify aberto! Escolha sua playlist por lá 😉</string>
@@ -38,10 +38,10 @@
     <string name="btn_photo_done">✅ Missão cumprida!</string>
     <string name="btn_stop_simple">PARAR</string>
     <string name="btn_ok_sleep">OK, acordar 😅</string>
-    <string name="btn_play_spotify">Tocar no Spotify</string>
+    <string name="btn_play_spotify">Abrir minha faixa no Spotify</string>
     <string name="mission_go">Vai! Levanta da cama e fotografa o vaso sanitário 🚽📸</string>
     <string name="mission_cancelled">Foto cancelada — a música continua tocando! Tente de novo. 😈</string>
-    <string name="mission_done">Foto tirada! Música parada. Bom dia! ☀️</string>
+    <string name="mission_done">Alarme encerrado. Bom dia! ☀️</string>
     <string name="mission_camera_error">Não foi possível abrir a câmera. Tente novamente.</string>
     <string name="mission_required">Sem foto do vaso, sem paz! 📸🚽</string>
     <string name="spotify_opened">Abrimos o Spotify na sua música! Você também pode parar a reprodução por lá.</string>

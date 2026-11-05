@@ -20,6 +20,7 @@ import java.io.File
 /** Tela que aparece quando o alarme toca. A música só para após a missão. */
 class AlarmActivity : AppCompatActivity() {
 
+    private var missionOn = true
     private var photoFile: File? = null
     private lateinit var captureLauncher: ActivityResultLauncher<Intent>
     private lateinit var missionState: TextView
@@ -51,27 +52,41 @@ class AlarmActivity : AppCompatActivity() {
         btnSpotify = findViewById(R.id.btnSpotify)
 
         val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
-        val musicId = prefs.getInt(AppPrefs.KEY_MUSIC_ID, SpotifyMusic.STANDARD_BELL_ID)
-        val missionOn = prefs.getBoolean(AppPrefs.KEY_MISSION_ON, true)
+        missionOn = savedInstanceState?.getBoolean("missionOn") ?: prefs.getBoolean(AppPrefs.KEY_MISSION_ON, true)
+        photoFile = savedInstanceState?.getString("photoPath")?.let(::File)
+        val track = prefs.getString(SpotifyMusic.SAVED_TRACK, null)
+        btnSpotify.visibility = View.GONE
+        btnSpotify.setOnClickListener {
+            if (track != null) {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(track)))
+                } catch (_: android.content.ActivityNotFoundException) {
+                    missionState.text = "Nenhum aplicativo disponível para abrir a faixa."
+                }
+            }
+        }
 
         captureLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) onPhotoTaken()
-            else missionState.text = getString(R.string.mission_cancelled)
+            if (result.resultCode == Activity.RESULT_OK) validatePhoto()
+            else retryPhoto(getString(R.string.mission_cancelled))
         }
 
         if (!missionOn) {
             // Missão desligada nas configurações: botão para direto
             btnPhoto.visibility = View.GONE
             btnStop.visibility = View.VISIBLE
-            btnStop.setOnClickListener { finishAlarm() }
+            btnStop.setOnClickListener { completeMission() }
         } else {
             btnStop.visibility = View.GONE
             btnPhoto.setOnClickListener { startCameraMission() }
         }
 
-        btnSpotify.setOnClickListener { openSpotifyNow(musicId) }
+        when {
+            savedInstanceState?.getBoolean("completed") == true -> showCompleted()
+            savedInstanceState?.getBoolean("checking") == true -> validatePhoto()
+        }
     }
 
     /** Botão "PARAR": dispara a missão de levantar e fotografar o vaso sanitário. */
@@ -101,15 +116,66 @@ class AlarmActivity : AppCompatActivity() {
             }
             captureLauncher.launch(intent)
         } catch (e: Exception) {
-            missionState.text = getString(R.string.mission_camera_error)
-            btnPhoto.isEnabled = true
+            retryPhoto(getString(R.string.mission_camera_error))
         }
     }
 
-    private fun onPhotoTaken() {
-        missionState.text = getString(R.string.mission_done)
-        // Foto tirada -> a música PARA.
+    private var checking = false
+    private var completed = false
+
+    private fun retryPhoto(message: String) {
+        photoFile?.delete()
+        photoFile = null
+        btnPhoto.isEnabled = true
+        missionState.text = message
+    }
+
+    private fun validatePhoto() {
+        if (checking || completed) return
+        val file = photoFile ?: return retryPhoto("Foto indisponível. Tire outra foto.")
+        checking = true
+        btnPhoto.isEnabled = false
+        missionState.text = "Verificando se há um vaso sanitário na foto…"
+        Thread {
+            val accepted = try {
+                ToiletDetector.recognizes(applicationContext, file)
+            } catch (_: Exception) {
+                null
+            } catch (_: LinkageError) {
+                null
+            }
+            runOnUiThread {
+                if (isDestroyed || isFinishing) return@runOnUiThread
+                checking = false
+                when (accepted) {
+                    true -> completeMission()
+                    false -> retryPhoto("Vaso não reconhecido. Enquadre a bacia inteira com boa iluminação e tente novamente.")
+                    null -> retryPhoto("Não foi possível analisar a foto. Tente novamente.")
+                }
+            }
+        }.start()
+    }
+
+    override fun onSaveInstanceState(out: Bundle) {
+        super.onSaveInstanceState(out)
+        out.putString("photoPath", photoFile?.path)
+        out.putBoolean("missionOn", missionOn)
+        out.putBoolean("checking", checking)
+        out.putBoolean("completed", completed)
+    }
+
+    private fun completeMission() {
         stopSoundService()
+        photoFile?.delete()
+        photoFile = null
+        showCompleted()
+    }
+
+    private fun showCompleted() {
+        completed = true
+        val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
+        btnSpotify.visibility = if (prefs.contains(SpotifyMusic.SAVED_TRACK)) View.VISIBLE else View.GONE
+        missionState.text = getString(R.string.mission_done)
         btnPhoto.isEnabled = false
         btnPhoto.text = getString(R.string.btn_photo_done)
         btnStop.visibility = View.VISIBLE
@@ -131,43 +197,13 @@ class AlarmActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Abre o Spotify tocando a música escolhida. Para silenciar de vez, o
-     * usuário pode também parar a reprodução dentro do próprio Spotify.
-     */
-    private fun openSpotifyNow(musicId: Int) {
-        val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
-        val name = when (musicId) {
-            SpotifyMusic.STANDARD_BELL_ID -> "música animada para acordar"
-            else -> SpotifyMusic.buildList(this).find { it.id == musicId }?.title
-                ?: "música animada para acordar"
-        }
-        val opened = SpotifyMusic.openInSpotify(this, name)
-        missionState.text = if (opened)
-            getString(R.string.spotify_opened)
-        else
-            getString(R.string.spotify_not_found)
-    }
-
     override fun onBackPressed() {
         // Não deixa fechar sem cumprir a missão (se ela estiver ligada)
-        val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
-        if (prefs.getBoolean(AppPrefs.KEY_MISSION_ON, true)) {
+        if (!completed && missionOn) {
             missionState.text = getString(R.string.mission_required)
         } else {
             finishAlarm()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // Quando a foto terminar e voltarmos para esta tela, a missão está cumprida
-        val f = photoFile
-        if (f != null && f.exists() && f.length() > 0) onPhotoTaken()
-    }
-
-    override fun onDestroy() {
-        // Se a atividade for destruída sem missão cumprida, mantém o som ligado
-        super.onDestroy()
-    }
 }
