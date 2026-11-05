@@ -24,7 +24,6 @@ import android.os.VibratorManager
  */
 class AlarmSoundService : Service() {
 
-    private var player: MediaPlayer? = null
     private var vibrator: Vibrator? = null
     private var looping = false
 
@@ -33,9 +32,8 @@ class AlarmSoundService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
-                val musicId = intent.getIntExtra(EXTRA_MUSIC_ID, SpotifyMusic.STANDARD_BELL_ID)
                 startForegroundNotif(getString(R.string.notif_playing))
-                play(musicId)
+                looping = true
                 vibrateLoop(true)
             }
             ACTION_STOP -> stopEverything()
@@ -45,50 +43,6 @@ class AlarmSoundService : Service() {
         }
         return START_STICKY
     }
-
-    private fun play(musicId: Int) {
-        releasePlayer()
-        player = try {
-            if (musicId == SpotifyMusic.STANDARD_BELL_ID) {
-                val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                    ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                MediaPlayer().apply {
-                    setDataSource(this@AlarmSoundService, uri)
-                    setAudioAttributes(alarmAudioAttributes())
-                    isLooping = true
-                    prepare()
-                }
-            } else {
-                val f = SpotifyMusic.fileFor(this, musicId)
-                if (f != null && f.exists()) {
-                    MediaPlayer().apply {
-                        setDataSource(f.absolutePath)
-                        setAudioAttributes(alarmAudioAttributes())
-                        isLooping = true
-                        prepare()
-                    }
-                } else {
-                    // fallback: sininho padrão
-                    val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                    MediaPlayer().apply {
-                        setDataSource(this@AlarmSoundService, uri)
-                        setAudioAttributes(alarmAudioAttributes())
-                        isLooping = true
-                        prepare()
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            null
-        }
-        player?.start()
-        looping = true
-    }
-
-    private fun alarmAudioAttributes() = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_ALARM)
-        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-        .build()
 
     private fun vibrateLoop(on: Boolean) {
         vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -141,33 +95,21 @@ class AlarmSoundService : Service() {
         }
     }
 
-    private fun releasePlayer() {
-        try {
-            player?.stop()
-            player?.release()
-        } catch (_: Exception) {
-        }
-        player = null
-    }
-
     private fun stopEverything() {
         looping = false
         vibrateLoop(false)
-        releasePlayer()
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
 
     override fun onDestroy() {
         vibrateLoop(false)
-        releasePlayer()
         super.onDestroy()
     }
 
     companion object {
         const val ACTION_START = "com.example.alarmevaso.START_SOUND"
         const val ACTION_STOP = "com.example.alarmevaso.STOP_SOUND"
-        const val EXTRA_MUSIC_ID = "music_id"
         private const val CHANNEL_ID = "alarme_vaso_canal"
         private const val NOTIF_ID = 42
     }

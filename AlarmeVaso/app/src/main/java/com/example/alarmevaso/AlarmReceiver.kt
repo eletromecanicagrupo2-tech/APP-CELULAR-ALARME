@@ -33,8 +33,6 @@ class AlarmReceiver : BroadcastReceiver() {
         // Serviço em primeiro plano toca a música escolhida + vibração
         val svc = Intent(context, AlarmSoundService::class.java).apply {
             action = AlarmSoundService.ACTION_START
-            putExtra(AlarmSoundService.EXTRA_MUSIC_ID,
-                prefs.getInt(AppPrefs.KEY_MUSIC_ID, SpotifyMusic.STANDARD_BELL_ID))
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(svc)
