@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AlarmeVaso" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/green_spotify</item>
-        <item name="colorOnPrimary">@color/dark_bg</item>
-        <item name="android:colorBackground">@color/dark_bg</item>
-        <item name="colorSurface">@color/card_dark</item>
+    <style name="Theme.AlarmeVaso" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">#653B83</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorOnSurface">#342940</item>
+        <item name="colorSurface">#FFF9F0</item>
+        <item name="android:colorBackground">#FFF9F0</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:statusBarColor">#FFF9F0</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">#342940</item>
     </style>
-
-    <style name="Theme.AlarmeVaso.Ring" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/red_alarm</item>
-        <item name="android:colorBackground">@color/dark_bg</item>
-    </style>
+    <style name="Theme.AlarmeVaso.Ring" parent="Theme.AlarmeVaso"/>
 </resources>

@@ -69,8 +69,12 @@ class MainActivity : AppCompatActivity() {
 
         swAlarm.setOnCheckedChangeListener { _, on ->
             prefs.edit().putBoolean(AppPrefs.KEY_ENABLED, on).apply()
-            if (on) requestPermissionsIfNeeded()
-            AlarmScheduler.schedule(this)
+            if (on) {
+                requestPermissionsIfNeeded()
+                AlarmScheduler.schedule(this)
+            } else {
+                AlarmScheduler.cancel(this)
+            }
             refresh()
         }
         swRepeat.setOnCheckedChangeListener { _, on ->
@@ -88,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             (recycler.adapter as MusicAdapter).notifyDataSetChanged()
         }
 
+        findViewById<Button>(R.id.btnSamsungClock).setOnClickListener { configureSamsungAlarm() }
         findViewById<Button>(R.id.btnImportMusic).setOnClickListener { importMusicFile() }
         findViewById<Button>(R.id.btnOpenSpotify).setOnClickListener {
             chooseSpotifyTrack()
@@ -111,7 +116,7 @@ class MainActivity : AppCompatActivity() {
     private fun brasiliaNowString(): String {
         val fmt = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         fmt.timeZone = AppPrefs.brasiliaTimeZone()
-        return fmt.format(Date())
+        return getString(R.string.title_brasilia, fmt.format(Date()))
     }
 
     private fun refresh() {
@@ -138,6 +143,35 @@ class MainActivity : AppCompatActivity() {
             txtNext.text = getString(R.string.next_none)
         }
         updateMusicLabel()
+    }
+
+    private fun configureSamsungAlarm() {
+        val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
+        val hour = prefs.getInt(AppPrefs.KEY_HOUR, AppPrefs.DEFAULT_HOUR)
+        val minute = prefs.getInt(AppPrefs.KEY_MIN, AppPrefs.DEFAULT_MIN)
+        val time = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Spotify às $time")
+            .setMessage("O Relógio Samsung recebe esse horário no fuso do celular. Abra o alarme, vá em Som → Spotify, escolha a música e salve. A foto encerra apenas o alarme do Alarme Vaso. Se ativar os dois, cada um toca e precisa ser encerrado separadamente.")
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Abrir Relógio") { _, _ ->
+                val intent = Intent(android.provider.AlarmClock.ACTION_SET_ALARM).apply {
+                    setPackage("com.sec.android.app.clockpackage")
+                    putExtra(android.provider.AlarmClock.EXTRA_HOUR, hour)
+                    putExtra(android.provider.AlarmClock.EXTRA_MINUTES, minute)
+                    putExtra(android.provider.AlarmClock.EXTRA_MESSAGE, "Acordar com Spotify")
+                    putExtra(android.provider.AlarmClock.EXTRA_SKIP_UI, false)
+                    if (prefs.getBoolean(AppPrefs.KEY_REPEAT, true)) {
+                        putIntegerArrayListExtra(android.provider.AlarmClock.EXTRA_DAYS,
+                            ArrayList((java.util.Calendar.SUNDAY..java.util.Calendar.SATURDAY).toList()))
+                    }
+                }
+                try {
+                    startActivity(intent)
+                } catch (_: android.content.ActivityNotFoundException) {
+                    android.widget.Toast.makeText(this, "O Relógio Samsung não está disponível neste aparelho.", android.widget.Toast.LENGTH_LONG).show()
+                }
+            }.show()
     }
 
     private fun chooseSpotifyTrack() {
@@ -297,7 +331,6 @@ class MainActivity : AppCompatActivity() {
             val title: TextView = v.findViewById(R.id.txtTitle)
             val subtitle: TextView = v.findViewById(R.id.txtSubtitle)
             val check: TextView = v.findViewById(R.id.txtCheck)
-            val spotify: TextView = v.findViewById(R.id.btnSpotifyRow)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -309,7 +342,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount() = items.size
 
         override fun onBindViewHolder(holder: VH, position: Int) {
-            val item = items[holder.bindingAdapterPosition]
+            val item = items[position]
             holder.title.text = item.title
             holder.subtitle.text = item.subtitle
             val ctx = holder.itemView.context
@@ -320,18 +353,6 @@ class MainActivity : AppCompatActivity() {
             holder.itemView.setOnClickListener {
                 onClick(item)
                 notifyItemRangeChanged(0, items.size)
-            }
-            holder.spotify.setOnClickListener {
-                val q = if (item.id == SpotifyMusic.STANDARD_BELL_ID)
-                    "alarm wake up songs"
-                else SpotifyMusic.bundled.getOrNull(item.id)?.spotifyQuery ?: item.title
-                val ok = SpotifyMusic.openInSpotify(ctx, q)
-                if (!ok) {
-                    (ctx as? MainActivity)?.let {
-                        it.findViewById<TextView>(R.id.txtStatus).text =
-                            ctx.getString(R.string.status_no_spotify)
-                    }
-                }
             }
         }
     }

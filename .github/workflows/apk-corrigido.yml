@@ -21,5 +21,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp AlarmeVaso/app/build/outputs/apk/debug/app-debug.apk AlarmeVaso-1.1.apk
-          gh release create "teste-${GITHUB_SHA:0:8}" AlarmeVaso-1.1.apk --target "$GITHUB_SHA" --prerelease --title "Alarme Vaso 1.1" --notes "Reconhecimento local de vaso sanitário e faixa do Spotify após o alarme."
+          cp AlarmeVaso/app/build/outputs/apk/debug/app-debug.apk AlarmeVaso-1.2.apk
+          gh release create "teste-${GITHUB_SHA:0:8}" AlarmeVaso-1.2.apk --target "$GITHUB_SHA" --prerelease --title "Alarme Vaso 1.2" --notes "Nova interface e acesso ao alarme musical do Relógio Samsung."

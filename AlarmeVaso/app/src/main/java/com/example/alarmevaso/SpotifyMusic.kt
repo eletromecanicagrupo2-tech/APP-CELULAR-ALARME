@@ -106,7 +106,7 @@ object SpotifyMusic {
         out.add(MusicItem(STANDARD_BELL_ID, "Sininho padrão", "Toque clássico de despertador"))
         var bid = 0
         for (b in bundled) {
-            out.add(MusicItem(bid++, b.title, "Playlist Spotify: ${b.playlist}"))
+            out.add(MusicItem(bid++, b.title, "Som do aplicativo"))
         }
         // Músicas copiadas para a pasta do app (importadas pelo usuário)
         val dir = musicDir(context)

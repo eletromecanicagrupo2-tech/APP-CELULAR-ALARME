@@ -1,53 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Alarme Vaso 🚽</string>
-
-    <!-- Tela principal -->
-    <string name="title_brasilia">Hora de Brasília agora: %1$s</string>
-    <string name="lbl_alarm_time">Horário do alarme (fuso de Brasília)</string>
-    <string name="btn_change_time">Alterar horário</string>
-    <string name="sw_alarm_on">Alarme ligado</string>
-    <string name="sw_repeat">Repetir todos os dias</string>
-    <string name="sw_mission">Missão obrigatória: fotografar o vaso sanitário para a música parar</string>
-    <string name="status_off">Alarme desligado</string>
-    <string name="status_on">Alarme ativo ⏰</string>
-    <string name="next_today">Dispara hoje às %1$s (hora de Brasília)</string>
-    <string name="next_tomorrow">Dispara amanhã às %1$s (hora de Brasília)</string>
-    <string name="next_none">Nenhum disparo agendado</string>
-    <string name="music_selected">Toca no alarme: %1$s</string>
-    <string name="music_bell">Sininho padrão</string>
-    <string name="pick_time_title">Escolha o horário (Brasília)</string>
-    <string name="lbl_playlist">Som do despertador</string>
-    <string name="hint_playlist">Escolha um som da lista ou importe um arquivo de áudio. A faixa do Spotify pode ser aberta depois de parar o alarme.</string>
-    <string name="btn_import_music">Importar música do celular</string>
-    <string name="btn_open_spotify">Escolher faixa do Spotify</string>
-    <string name="btn_test_alarm">Testar alarme agora 🔔</string>
-    <string name="btn_battery">Evitar que a bateria mate o alarme</string>
-    <string name="status_spotify_open">Spotify aberto! Escolha sua playlist por lá 😉</string>
-    <string name="status_no_spotify">Spotify não encontrado neste aparelho.</string>
-    <string name="status_pick_hint">Escolha um arquivo de áudio…</string>
-    <string name="status_imported">Música importada: %1$s</string>
-    <string name="status_import_error">Não foi possível importar a música.</string>
-    <string name="row_open_spotify">Abrir no Spotify</string>
-    <string name="selected_check">✓ selecionada</string>
-
-    <!-- Tela do alarme -->
-    <string name="alarm_ringing">HORA DE ACORDAR!</string>
-    <string name="mission_intro">🚽 MISSÃO: levante da cama e tire uma foto do VASO SANITÁRIO para a música parar. Não adianta só apagar: sem foto, o barulho continua!</string>
-    <string name="btn_take_photo">📷 PARAR — tirar a foto do vaso</string>
-    <string name="btn_photo_done">✅ Missão cumprida!</string>
-    <string name="btn_stop_simple">PARAR</string>
-    <string name="btn_ok_sleep">OK, acordar 😅</string>
-    <string name="btn_play_spotify">Abrir minha faixa no Spotify</string>
-    <string name="mission_go">Vai! Levanta da cama e fotografa o vaso sanitário 🚽📸</string>
-    <string name="mission_cancelled">Foto cancelada — a música continua tocando! Tente de novo. 😈</string>
-    <string name="mission_done">Alarme encerrado. Bom dia! ☀️</string>
-    <string name="mission_camera_error">Não foi possível abrir a câmera. Tente novamente.</string>
-    <string name="mission_required">Sem foto do vaso, sem paz! 📸🚽</string>
-    <string name="spotify_opened">Abrimos o Spotify na sua música! Você também pode parar a reprodução por lá.</string>
-    <string name="spotify_not_found">Spotify não encontrado; use a missão da foto para parar a música local.</string>
-
-    <!-- Notificação -->
-    <string name="notif_channel">Alarme tocando</string>
-    <string name="notif_playing">Alarme tocando — cumpra a missão para parar!</string>
+  <string name="app_name">Alarme Vaso 🚽</string>
+  <string name="title_brasilia">Hora de Brasília agora: %1$s</string>
+  <string name="lbl_alarm_time">Horário do alarme (fuso de Brasília)</string>
+  <string name="btn_change_time">Alterar horário</string>
+  <string name="sw_alarm_on">Alarme ligado</string>
+  <string name="sw_repeat">Repetir todos os dias</string>
+  <string name="sw_mission">Exigir foto do vaso</string>
+  <string name="status_off">Alarme desligado</string>
+  <string name="status_on">Alarme ativo ⏰</string>
+  <string name="next_today">Dispara hoje às %1$s (hora de Brasília)</string>
+  <string name="next_tomorrow">Dispara amanhã às %1$s (hora de Brasília)</string>
+  <string name="next_none">Nenhum disparo agendado</string>
+  <string name="music_selected">Toca no alarme: %1$s</string>
+  <string name="music_bell">Sininho padrão</string>
+  <string name="pick_time_title">Escolha o horário (Brasília)</string>
+  <string name="lbl_playlist">Som do despertador</string>
+  <string name="hint_playlist">Escolha um som da lista ou importe um arquivo de áudio. A faixa do Spotify pode ser aberta depois de parar o alarme.</string>
+  <string name="btn_import_music">Importar música do celular</string>
+  <string name="btn_open_spotify">Escolher faixa do Spotify</string>
+  <string name="btn_test_alarm">Testar meu alarme</string>
+  <string name="btn_battery">Ajustar uso da bateria</string>
+  <string name="status_spotify_open">Spotify aberto! Escolha sua playlist por lá 😉</string>
+  <string name="status_no_spotify">Spotify não encontrado neste aparelho.</string>
+  <string name="status_pick_hint">Escolha um arquivo de áudio…</string>
+  <string name="status_imported">Música importada: %1$s</string>
+  <string name="status_import_error">Não foi possível importar a música.</string>
+  <string name="row_open_spotify">Abrir no Spotify</string>
+  <string name="selected_check">✓ selecionada</string>
+  <string name="alarm_ringing">O trono te espera!</string>
+  <string name="mission_intro">🚽 MISSÃO: levante da cama e tire uma foto do VASO SANITÁRIO para a música parar. Não adianta só apagar: sem foto, o barulho continua!</string>
+  <string name="btn_take_photo">Fotografar o vaso</string>
+  <string name="btn_photo_done">✅ Missão cumprida!</string>
+  <string name="btn_stop_simple">PARAR</string>
+  <string name="btn_ok_sleep">Pronto, acordei!</string>
+  <string name="btn_play_spotify">Abrir minha faixa no Spotify</string>
+  <string name="mission_go">Vai! Levanta da cama e fotografa o vaso sanitário 🚽📸</string>
+  <string name="mission_cancelled">Foto cancelada. O alarme continua tocando.</string>
+  <string name="mission_done">Alarme encerrado. Bom dia! ☀️</string>
+  <string name="mission_camera_error">Não foi possível abrir a câmera. Tente novamente.</string>
+  <string name="mission_required">Sem foto do vaso, sem paz! 📸🚽</string>
+  <string name="spotify_opened">Abrimos o Spotify na sua música! Você também pode parar a reprodução por lá.</string>
+  <string name="spotify_not_found">Spotify não encontrado; use a missão da foto para parar a música local.</string>
+  <string name="notif_channel">Alarme tocando</string>
+  <string name="notif_playing">Alarme tocando — cumpra a missão para parar!</string>
 </resources>

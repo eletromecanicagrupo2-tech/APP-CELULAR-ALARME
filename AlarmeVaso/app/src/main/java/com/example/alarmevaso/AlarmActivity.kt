@@ -74,6 +74,7 @@ class AlarmActivity : AppCompatActivity() {
         }
 
         if (!missionOn) {
+            findViewById<TextView>(R.id.missionIntro).text = "Toque em parar para encerrar o alarme."
             // Missão desligada nas configurações: botão para direto
             btnPhoto.visibility = View.GONE
             btnStop.visibility = View.VISIBLE
@@ -173,6 +174,7 @@ class AlarmActivity : AppCompatActivity() {
 
     private fun showCompleted() {
         completed = true
+        findViewById<TextView>(R.id.missionIntro).visibility = View.GONE
         val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
         btnSpotify.visibility = if (prefs.contains(SpotifyMusic.SAVED_TRACK)) View.VISIBLE else View.GONE
         missionState.text = getString(R.string.mission_done)
