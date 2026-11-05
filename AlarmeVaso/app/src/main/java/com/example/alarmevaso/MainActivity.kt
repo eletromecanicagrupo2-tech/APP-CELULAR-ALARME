@@ -126,8 +126,6 @@ class MainActivity : AppCompatActivity() {
         txtStatus.text = getString(if (enabled) R.string.status_on else R.string.status_off)
         val next = AlarmScheduler.nextTriggerMillis(this)
         if (enabled && next > 0) {
-            val fmt = SimpleDateFormat("'amanhã às' HH:mm '\\n'(hora de Brasília)", Locale.getDefault())
-            fmt.timeZone = AppPrefs.brasiliaTimeZone()
             val sameDay = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).also {
                 it.timeZone = AppPrefs.brasiliaTimeZone()
             }.format(Date(next)) == SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).also {
