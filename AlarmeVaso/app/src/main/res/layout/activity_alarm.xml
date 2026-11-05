@@ -1,0 +1,13 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="#FFF9F0">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:layout_marginBottom="12dp" android:background="@drawable/card_peach">
+      <ImageView android:layout_width="match_parent" android:layout_height="185dp" android:src="@drawable/mascote" android:importantForAccessibility="no" android:scaleType="fitCenter" />
+      <TextView android:id="@+id/txtRinging" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/alarm_ringing" android:textColor="#382B46" android:textSize="34sp" android:textStyle="bold" android:fontFamily="casual" android:gravity="center" />
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/missionIntro" android:text="Fotografe o vaso inteiro para desligar o alarme." android:gravity="center" android:textSize="17sp" android:textColor="#382B46" />
+    </LinearLayout>
+    <TextView android:id="@+id/txtMissionState" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#633B82" android:textSize="16sp" android:textStyle="bold" android:gravity="center" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnTakePhoto" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="72dp" android:text="@string/btn_take_photo" android:textSize="18sp" app:cornerRadius="16dp" android:textColor="#FFFFFF" app:backgroundTint="#633B82" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnStop" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="72dp" android:text="@string/btn_stop_simple" android:textSize="18sp" android:visibility="gone" app:cornerRadius="16dp" android:textColor="#FFFFFF" app:backgroundTint="#633B82" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnSpotify" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_play_spotify" android:textColor="#633B82" />
+  </LinearLayout>
+</ScrollView>

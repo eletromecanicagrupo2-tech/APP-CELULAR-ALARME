@@ -1,0 +1,36 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="#FFF9F0">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:layout_marginBottom="12dp" android:background="@drawable/card_peach">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1">
+          <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Alarme Vaso" android:textSize="32sp" android:fontFamily="casual" android:textStyle="bold" android:textColor="#382B46" />
+          <TextView android:id="@+id/txtBrasiliaNow" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#645869" android:textSize="13sp" />
+        </LinearLayout>
+        <ImageView android:layout_width="110dp" android:layout_height="100dp" android:src="@drawable/mascote" android:importantForAccessibility="no" android:scaleType="fitCenter" />
+      </LinearLayout>
+      <TextView android:id="@+id/txtTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="06:30" android:textColor="#382B46" android:textSize="58sp" android:textStyle="bold" android:fontFamily="sans-serif-black" android:gravity="center" />
+      <com.google.android.material.button.MaterialButton android:id="@+id/btnPickTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_change_time" />
+      <TextView android:id="@+id/txtNext" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#645869" android:textSize="14sp" android:gravity="center" android:layout_marginTop="5dp" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:layout_marginBottom="12dp" android:background="@drawable/card_white">
+      <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/swAlarmOn" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sw_alarm_on" android:textColor="#382B46" />
+      <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/swRepeat" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sw_repeat" android:textColor="#382B46" />
+      <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/swMission" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sw_mission" android:textColor="#382B46" />
+      <TextView android:id="@+id/txtStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#645869" android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:layout_marginBottom="12dp" android:background="@drawable/card_mint">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Som do despertador" android:textSize="24sp" android:fontFamily="casual" android:textStyle="bold" android:textColor="#382B46" />
+      <TextView android:id="@+id/txtMusicSelected" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#633B82" android:textSize="14sp" android:textStyle="bold" />
+      <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerMusic" android:layout_width="match_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false" />
+      <com.google.android.material.button.MaterialButton android:id="@+id/btnImportMusic" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_import_music" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:layout_marginBottom="12dp" android:background="@drawable/card_lilac">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Spotify" android:textSize="24sp" android:fontFamily="casual" android:textStyle="bold" android:textColor="#382B46" />
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Para acordar com uma faixa do Spotify, configure o som no Relógio Samsung. Esse alarme é separado da missão da foto." android:textColor="#645869" />
+      <com.google.android.material.button.MaterialButton android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/btnSamsungClock" android:text="Configurar no Relógio Samsung" />
+      <com.google.android.material.button.MaterialButton android:id="@+id/btnOpenSpotify" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Faixa para depois da missão" android:textColor="#633B82" android:backgroundTint="#EEE4FA" />
+    </LinearLayout>
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnTestAlarm" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_test_alarm" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnBattery" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_battery" android:textColor="#633B82" />
+  </LinearLayout>
+</ScrollView>

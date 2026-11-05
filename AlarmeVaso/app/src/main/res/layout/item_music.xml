@@ -1,0 +1,8 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal" android:padding="12dp">
+  <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+    <TextView android:id="@+id/txtTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#382B46" android:textSize="16sp" android:textStyle="bold" />
+    <TextView android:id="@+id/txtSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#645869" android:textSize="13sp" />
+    <TextView android:id="@+id/txtCheck" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/selected_check" android:textColor="#633B82" android:textSize="12sp" android:visibility="invisible" />
+  </LinearLayout>
+  <TextView android:id="@+id/btnSpotifyRow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_spotify_pill" android:paddingHorizontal="12dp" android:paddingVertical="6dp" android:text="@string/row_open_spotify" android:textColor="#633B82" android:textSize="13sp" android:textStyle="bold" android:visibility="gone" />
+</LinearLayout>
