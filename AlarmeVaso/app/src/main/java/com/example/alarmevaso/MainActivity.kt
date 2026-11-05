@@ -198,7 +198,8 @@ class MainActivity : AppCompatActivity() {
                 val prefs = getSharedPreferences(AppPrefs.PREFS, MODE_PRIVATE)
                 musicId = id
                 prefs.edit().putInt(AppPrefs.KEY_MUSIC_ID, id).apply()
-                val newAdapter = MusicAdapter(SpotifyMusic.buildList(this)) { item ->
+                lateinit var newAdapter: MusicAdapter
+                newAdapter = MusicAdapter(SpotifyMusic.buildList(this)) { item ->
                     musicId = item.id
                     prefs.edit().putInt(AppPrefs.KEY_MUSIC_ID, item.id).apply()
                     updateMusicLabel()
